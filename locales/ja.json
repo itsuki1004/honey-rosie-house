@@ -106,7 +106,7 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "カートに追加する",
+      "add_to_cart": "カートに入れる",
       "description": "商品説明",
       "on_sale": "セール",
       "product_variants": "商品バリエーション",
@@ -313,16 +313,16 @@
       "payment": "決済方法"
     },
     "featured_blog": {
-      "view_all": "すべてを表示する",
+      "view_all": "すべて見る",
       "onboarding_title": "ブログ記事",
       "onboarding_content": "お客様にブログ記事のサマリーを提供する"
     },
     "featured_collection": {
-      "view_all": "すべてを表示する",
+      "view_all": "すべて見る",
       "view_all_label": "{{ collection_name }}コレクションの商品をすべて表示する"
     },
     "collection_list": {
-      "view_all": "すべてを表示する"
+      "view_all": "すべて見る"
     },
     "collection_template": {
       "title": "コレクション",
