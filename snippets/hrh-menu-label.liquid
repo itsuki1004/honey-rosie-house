@@ -1,0 +1,13 @@
+{% comment %}
+  HONEY ROSIE HOUSE 追加: ナビゲーションメニューの表示名を差し替える。
+
+  メニュー項目名は Shopify の管理画面（ナビゲーション）が持つデータで、
+  テーマからは変更できない。ここは表示だけを書き換える対処。
+
+  注意: 管理画面上の項目名は元のまま（例: Catalog）なので、
+  管理画面とサイト表示がずれる。恒久対応は管理画面側で項目名を直すこと。
+  その際はこのスニペットの置換も外す。
+
+  引数: title (string)
+{% endcomment %}
+{{- title | replace: 'Catalog', 'Collection' | replace: 'カタログ', 'Collection' | escape -}}
