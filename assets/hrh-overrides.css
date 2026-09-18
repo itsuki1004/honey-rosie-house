@@ -1,0 +1,41 @@
+/* HONEY ROSIE HOUSE - Dawn への上書き
+   layout/theme.liquid から base.css の後に読み込む。
+   Dawn 本体のファイルを直接編集しないため、バージョンアップ時の差分を小さく保てる。 */
+
+/* ---------------------------------------------------------------
+   商品カードの高さ揃え
+
+   商品名が1行の商品と2行の商品が並ぶと、価格とボタンの位置がずれる。
+   - 商品名に2行ぶんの高さを確保して、価格の位置を揃える
+   - カード内をflexにして、ボタンを常にカード下端へ寄せる
+     （商品名が3行以上になってもボタンの位置は揃う）
+   --------------------------------------------------------------- */
+.card-wrapper.product-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-card-wrapper .card__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.product-card-wrapper .card__information {
+  flex: 0 0 auto;
+}
+
+.product-card-wrapper .quick-add {
+  margin-top: auto;
+}
+
+.product-card-wrapper .card__heading {
+  line-height: 1.4;
+  min-height: 2.8em; /* 2行ぶん */
+}
+
+/* 商品名が長いときに横へはみ出さないようにする */
+.product-card-wrapper .card__heading a {
+  overflow-wrap: anywhere;
+}
