@@ -149,8 +149,8 @@
 /* 背景レイヤーより前にコンテンツを置く。
    z-index: -1 はブラウザの描画順（ルート背景との関係）で埋もれる余地があるため、
    正の重ね順で明示する。 */
-.template-index .shopify-section,
-.template-index #MainContent {
+.shopify-section,
+#MainContent {
   position: relative;
   z-index: 1;
 }
@@ -175,26 +175,26 @@
 }
 
 /* 背景が見えるように html と body を透過させる。
-   .gradient (specificity 0,1,0) に勝つよう 2クラスで指定する。 */
-html:has(body.template-index) {
+   .gradient (specificity 0,1,0) に勝つよう body 要素セレクタと併記する。 */
+html {
   background-color: transparent;
 }
 
-.template-index.gradient,
-.template-index {
+body.gradient,
+body {
   background-color: transparent;
   background-image: none;
 }
 
-/* 白（scheme-1）のセクションのみ95%に。
+/* 白（scheme-1）のセクションのみ85%に。
    ヘッダーは追従表示で下のコンテンツが透けると読みにくいため、
    フッター（濃紺）は世界観を保つため、どちらも不透明のまま残す。 */
-.template-index #MainContent .color-scheme-1 {
+#MainContent .color-scheme-1 {
   background-color: rgba(var(--color-background), 0.85);
 }
 
 /* カードは白のまま残して可読性を確保する */
-.template-index #MainContent .card--card {
+#MainContent .card--card {
   background-color: rgb(var(--color-background));
 }
 
