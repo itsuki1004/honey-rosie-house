@@ -175,9 +175,10 @@
         render 'header-drawer', show_country_selector: country_selector, show_language_selector: language_selector, show_social_links: social_links
       endif
 
-      if render_search_left
-        render 'header-search', input_id: 'Search-In-Modal-1'
-      endif
+      # HONEY ROSIE HOUSE: 検索機能は使わないため描画しない
+      # if render_search_left
+      #   render 'header-search', input_id: 'Search-In-Modal-1'
+      # endif
     -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
@@ -280,7 +281,7 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      {%- comment -%} HONEY ROSIE HOUSE: 検索機能は使わないため描画しない {%- endcomment -%}
 
       {%- if shop.customer_accounts_enabled -%}
         <shopify-account
