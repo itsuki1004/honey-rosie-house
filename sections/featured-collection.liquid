@@ -64,6 +64,12 @@
   endif
 -%}
 
+{%- comment -%}
+  HONEY ROSIE HOUSE 追加: 商品が1件も無いコレクションでは
+  Dawn 標準のオンボーディング用ダミー商品が表示されてしまうため、
+  セクションごと出力しない。(docs/実装メモ.md 参照)
+{%- endcomment -%}
+{%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
 <div
   class="color-{{ section.settings.color_scheme }} isolate gradient"
 >
@@ -214,6 +220,7 @@
     {%- endif -%}
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {

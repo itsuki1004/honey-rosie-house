@@ -24,6 +24,11 @@
     assign posts_displayed = section.settings.post_limit
   endif
 -%}
+{%- comment -%}
+  HONEY ROSIE HOUSE 追加: 記事が1件も無いブログでは
+  Dawn 標準のダミー記事が表示されてしまうため、セクションごと出力しない。
+{%- endcomment -%}
+{%- if section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
 <div class="blog color-{{ section.settings.color_scheme }} gradient{% if section.settings.heading == blank %} no-heading{% endif %}">
   <div class="page-width-desktop isolate{% if posts_displayed < 3 %} page-width-tablet{% endif %} section-{{ section.id }}-padding">
     {%- unless section.settings.heading == blank -%}
@@ -189,6 +194,7 @@
     {%- endif -%}
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
