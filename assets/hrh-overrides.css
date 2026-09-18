@@ -138,40 +138,54 @@
    ブランドアートを画面いっぱいに固定し、その上のコンテンツ背景を
    不透明度95%の白にすることで、うっすら透けて見える状態をつくる。
    --------------------------------------------------------------- */
-.hrh-bg {
+/* 背景レイヤーは body::before で描く。
+   Liquid を介さないため、スニペットの描画有無に左右されない。
+   CSS 内の相対パスはテーマの assets/ を指す。 */
+body::before {
+  content: "";
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 0;
-  overflow: hidden;
+  background-size: cover;      /* 画面比率に合わせてはみ出させる */
+  background-position: center;
+  background-repeat: no-repeat;
   pointer-events: none;
+  animation: hrh-bg-cycle 50s linear infinite; /* 5枚 x 10秒 */
 }
 
-/* 背景レイヤーより前にコンテンツを置く。
-   z-index: -1 はブラウザの描画順（ルート背景との関係）で埋もれる余地があるため、
-   正の重ね順で明示する。 */
+/* 1枚あたり: 1秒でフェードイン -> 約8秒表示 -> 1秒でフェードアウト。
+   背景画像は不透明度0の瞬間に差し替える。 */
+@keyframes hrh-bg-cycle {
+  0% { opacity: 0; background-image: url("hrh-bg-1.jpg"); }
+  2% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
+  18% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
+  20% { opacity: 0; background-image: url("hrh-bg-1.jpg"); }
+  20.01% { opacity: 0; background-image: url("hrh-bg-2.jpg"); }
+  22% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
+  38% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
+  40% { opacity: 0; background-image: url("hrh-bg-2.jpg"); }
+  40.01% { opacity: 0; background-image: url("hrh-bg-3.jpg"); }
+  42% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
+  58% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
+  60% { opacity: 0; background-image: url("hrh-bg-3.jpg"); }
+  60.01% { opacity: 0; background-image: url("hrh-bg-4.jpg"); }
+  62% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
+  78% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
+  80% { opacity: 0; background-image: url("hrh-bg-4.jpg"); }
+  80.01% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
+  82% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
+  98% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
+  100% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
+}
+
+/* 背景レイヤーより前にコンテンツを置く */
 .shopify-section,
 #MainContent {
   position: relative;
   z-index: 1;
-}
-
-.hrh-bg__slide {
-  position: absolute;
-  inset: 0;
-  background-size: cover;   /* 画面比率に合わせてはみ出させる */
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  animation: hrh-bg-cycle 50s linear infinite; /* 5枚 x 10秒 */
-}
-
-/* 1枚あたり: 2秒かけてフェードイン -> 約10秒表示 -> 2秒でフェードアウト */
-@keyframes hrh-bg-cycle {
-  0% { opacity: 0; }
-  4% { opacity: 1; }
-  20% { opacity: 1; }
-  24% { opacity: 0; }
-  100% { opacity: 0; }
 }
 
 /* 背景が見えるように html と body を透過させる。
@@ -186,7 +200,7 @@ body {
   background-image: none;
 }
 
-/* 白（scheme-1）のセクションのみ85%に。
+/* 白（scheme-1）のセクションを85%に。
    ヘッダーは追従表示で下のコンテンツが透けると読みにくいため、
    フッター（濃紺）は世界観を保つため、どちらも不透明のまま残す。 */
 #MainContent .color-scheme-1 {
@@ -200,12 +214,9 @@ body {
 
 /* 視差に弱い利用者には切り替えを止め、1枚目だけを表示する */
 @media (prefers-reduced-motion: reduce) {
-  .hrh-bg__slide {
+  body::before {
     animation: none;
-    opacity: 0;
-  }
-
-  .hrh-bg__slide:first-child {
     opacity: 1;
+    background-image: url("hrh-bg-1.jpg");
   }
 }
