@@ -153,31 +153,32 @@ body::before {
   background-position: center;
   background-repeat: no-repeat;
   pointer-events: none;
-  animation: hrh-bg-cycle 50s linear infinite; /* 5枚 x 10秒 */
+  animation: hrh-bg-cycle 50s ease-in-out infinite; /* 5枚 x 10秒 */
 }
 
-/* 1枚あたり: 1秒でフェードイン -> 約8秒表示 -> 1秒でフェードアウト。
-   背景画像は不透明度0の瞬間に差し替える。 */
+/* 1枚あたり: 2.5秒でフェードイン -> 5秒表示 -> 2.5秒でフェードアウト。
+   背景画像は不透明度0の瞬間に差し替えるため、切り替わりは見えない。
+   各区間の変化は ease-in-out で、出入りともになめらかにする。 */
 @keyframes hrh-bg-cycle {
   0% { opacity: 0; background-image: url("hrh-bg-1.jpg"); }
-  2% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
-  18% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
+  5% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
+  15% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
   20% { opacity: 0; background-image: url("hrh-bg-1.jpg"); }
   20.01% { opacity: 0; background-image: url("hrh-bg-2.jpg"); }
-  22% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
-  38% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
+  25% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
+  35% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
   40% { opacity: 0; background-image: url("hrh-bg-2.jpg"); }
   40.01% { opacity: 0; background-image: url("hrh-bg-3.jpg"); }
-  42% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
-  58% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
+  45% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
+  55% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
   60% { opacity: 0; background-image: url("hrh-bg-3.jpg"); }
   60.01% { opacity: 0; background-image: url("hrh-bg-4.jpg"); }
-  62% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
-  78% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
+  65% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
+  75% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
   80% { opacity: 0; background-image: url("hrh-bg-4.jpg"); }
   80.01% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
-  82% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
-  98% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
+  85% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
+  95% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
   100% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
 }
 
@@ -204,7 +205,7 @@ body {
    ヘッダーは追従表示で下のコンテンツが透けると読みにくいため、
    フッター（濃紺）は世界観を保つため、どちらも不透明のまま残す。 */
 #MainContent .color-scheme-1 {
-  background-color: rgba(var(--color-background), 0.85);
+  background-color: rgba(var(--color-background), 0.95);
 }
 
 /* カードは白のまま残して可読性を確保する */
