@@ -39,3 +39,95 @@
 .product-card-wrapper .card__heading a {
   overflow-wrap: anywhere;
 }
+
+/* ---------------------------------------------------------------
+   ホバー / フォーカスの質感
+
+   方針: docs/実装仕様.md 10.実装しないもの「過剰なアニメーション」を避け、
+   気づくかどうかの範囲に留める。
+
+   動きを伴う指定は必ず
+   @media (prefers-reduced-motion: no-preference) and (hover: hover)
+   の中に置く。タッチ端末でホバー状態が貼り付くのを防ぎ、
+   視差に弱い利用者の設定も尊重するため。
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  /* Dawn 既定のリフトは -0.75rem(12px) で強いため、控えめにする */
+  .animate--hover-vertical-lift .card-wrapper:hover .card--card,
+  .animate--hover-vertical-lift .card-wrapper:hover .card--standard .card__inner {
+    transform: translateY(-5px);
+  }
+
+  .animate--hover-vertical-lift .card-wrapper:active .card--card,
+  .animate--hover-vertical-lift .card-wrapper:active .card--standard .card__inner {
+    transform: translateY(-2px);
+  }
+
+  /* 浮き上がりに合わせて影をわずかに深くする */
+  .card-wrapper .card--card {
+    transition:
+      transform var(--duration-medium) var(--ease-out-slow),
+      box-shadow var(--duration-medium) var(--ease-out-slow);
+  }
+
+  .card-wrapper:hover .card--card {
+    box-shadow: 0 8px 26px rgba(18, 18, 18, 0.14);
+  }
+
+  /* 商品画像をゆっくり寄せる。枠は動かさない */
+  .card__media .media img,
+  .card__media .media svg {
+    transition: transform 600ms var(--ease-out-slow);
+  }
+
+  .card-wrapper:hover .card__media .media img,
+  .card-wrapper:hover .card__media .media svg {
+    transform: scale(1.04);
+  }
+
+  /* ボタンの色変化を瞬間的にしない */
+  .button,
+  .quick-add__submit {
+    transition:
+      background-color var(--duration-short) ease,
+      color var(--duration-short) ease,
+      box-shadow var(--duration-short) ease,
+      transform var(--duration-default) var(--ease-out-slow);
+  }
+
+  /* 「すべて見る」の下線をホバーで伸ばす */
+  .link.underlined-link,
+  .card__heading a {
+    transition: color var(--duration-short) ease;
+  }
+}
+
+/* キーボード操作時のフォーカス表示。動きを伴わないため常時適用する */
+.card__heading a:focus-visible,
+.button:focus-visible,
+.quick-add__submit:focus-visible,
+.link:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* カード画像がはみ出さないように角丸を継承させる */
+.card--card .card__inner,
+.card--card .card__media {
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------
+   ABOUT の CTA をスマホで中央に置く
+
+   .image-with-text__content は flex-direction: column / align-items: flex-start のため、
+   本文左揃えのままだとボタンも左端に寄る。
+   本文は左揃えのまま（日本語の長文は中央揃えだと読みにくい）、
+   ボタンだけ中央に寄せる。
+   --------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .image-with-text__content--mobile-left > .button {
+    align-self: center;
+  }
+}
