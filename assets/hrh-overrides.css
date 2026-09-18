@@ -131,3 +131,66 @@
     align-self: center;
   }
 }
+
+/* ---------------------------------------------------------------
+   TOP の背景スライドショー
+
+   ブランドアートを画面いっぱいに固定し、その上のコンテンツ背景を
+   不透明度95%の白にすることで、うっすら透けて見える状態をつくる。
+   --------------------------------------------------------------- */
+.hrh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hrh-bg__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;   /* 画面比率に合わせてはみ出させる */
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: hrh-bg-cycle 50s linear infinite; /* 5枚 x 10秒 */
+}
+
+/* 1枚あたり: 2秒かけてフェードイン -> 約10秒表示 -> 2秒でフェードアウト */
+@keyframes hrh-bg-cycle {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  20% { opacity: 1; }
+  24% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* 背景が見えるように、body と TOP のセクション背景を透過させる */
+.template-index.gradient,
+.template-index {
+  background-color: transparent;
+}
+
+/* 白（scheme-1）のセクションのみ95%に。
+   ヘッダーは追従表示で下のコンテンツが透けると読みにくいため、
+   フッター（濃紺）は世界観を保つため、どちらも不透明のまま残す。 */
+.template-index #MainContent .color-scheme-1 {
+  background-color: rgba(var(--color-background), 0.95);
+}
+
+/* カードは白のまま残して可読性を確保する */
+.template-index #MainContent .card--card {
+  background-color: rgb(var(--color-background));
+}
+
+/* 視差に弱い利用者には切り替えを止め、1枚目だけを表示する */
+@media (prefers-reduced-motion: reduce) {
+  .hrh-bg__slide {
+    animation: none;
+    opacity: 0;
+  }
+
+  .hrh-bg__slide:first-child {
+    opacity: 1;
+  }
+}
