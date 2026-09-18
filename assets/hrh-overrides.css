@@ -182,6 +182,22 @@ body::before {
   100% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
 }
 
+/* 背景の上に白のベールを敷く。
+   セクション側で透過を作る方式だと、背景色を持たないテンプレート
+   （page.json の main-page など）で画像が素通しになるため、
+   背景レイヤー側で一律に薄める。 */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background-color: rgba(255, 255, 255, 0.95); /* scheme-1 の白に合わせる */
+  pointer-events: none;
+}
+
 /* 背景レイヤーより前にコンテンツを置く */
 .shopify-section,
 #MainContent {
@@ -201,11 +217,11 @@ body {
   background-image: none;
 }
 
-/* 白（scheme-1）のセクションを85%に。
-   ヘッダーは追従表示で下のコンテンツが透けると読みにくいため、
-   フッター（濃紺）は世界観を保つため、どちらも不透明のまま残す。 */
+/* 白（scheme-1）のセクションは完全に透過させ、濃さは上のベールに一本化する。
+   ヘッダー（追従表示で下が透けると読みにくい）とフッター（濃紺）は
+   #MainContent の外なので不透明のまま残る。 */
 #MainContent .color-scheme-1 {
-  background-color: rgba(var(--color-background), 0.95);
+  background-color: transparent;
 }
 
 /* カードは白のまま残して可読性を確保する */
