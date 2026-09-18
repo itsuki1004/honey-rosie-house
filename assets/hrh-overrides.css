@@ -174,8 +174,12 @@
   100% { opacity: 0; }
 }
 
-/* 背景が見えるように body を透過させる。
+/* 背景が見えるように html と body を透過させる。
    .gradient (specificity 0,1,0) に勝つよう 2クラスで指定する。 */
+html:has(body.template-index) {
+  background-color: transparent;
+}
+
 .template-index.gradient,
 .template-index {
   background-color: transparent;
@@ -186,7 +190,7 @@
    ヘッダーは追従表示で下のコンテンツが透けると読みにくいため、
    フッター（濃紺）は世界観を保つため、どちらも不透明のまま残す。 */
 .template-index #MainContent .color-scheme-1 {
-  background-color: rgba(var(--color-background), 0.9);
+  background-color: rgba(var(--color-background), 0.85);
 }
 
 /* カードは白のまま残して可読性を確保する */
