@@ -7,8 +7,16 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
+    {%- comment -%}
+      HONEY ROSIE HOUSE: 管理画面でファビコン未設定のときは
+      テーマの assets/hrh-favicon.png を使う。
+      管理画面で設定された場合はそちらが優先される。
+    {%- endcomment -%}
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" href="{{ 'hrh-favicon.png' | asset_url }}">
+      <link rel="apple-touch-icon" href="{{ 'hrh-favicon.png' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
