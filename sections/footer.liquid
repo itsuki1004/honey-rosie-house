@@ -297,6 +297,17 @@
         {%- endif -%}
       </div>
     </div>
+    {%- comment -%}
+      HONEY ROSIE HOUSE 追加: SNSアイコンをフッター最下部（コピーライトの上）に置く。
+      Dawn 標準は上部ブロック側に出るため、ここで別途描画している。
+      ブランド情報ブロック側の show_social は OFF にして重複を避けること。
+    {%- endcomment -%}
+    {%- if has_social_icons -%}
+      <div class="footer__content-bottom-wrapper page-width hrh-footer-social">
+        {%- render 'social-icons', class: 'footer__list-social' -%}
+      </div>
+    {%- endif -%}
+
     <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
       <div class="footer__copyright caption">
         <small class="copyright__content"

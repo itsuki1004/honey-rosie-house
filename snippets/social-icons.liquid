@@ -100,4 +100,17 @@
       </a>
     </li>
   {%- endif -%}
+  {%- comment -%}
+    HONEY ROSIE HOUSE 追加: note へのリンク。
+    Dawn は note に対応していないため、テーマ設定 social_note_link を自前で参照する。
+    note のロゴ画像は使わず、同じ大きさの文字で並べている。
+  {%- endcomment -%}
+  {%- if settings.social_note_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_note_link }}" class="link list-social__link hrh-social-note">
+        <span aria-hidden="true">note</span>
+        <span class="visually-hidden">note</span>
+      </a>
+    </li>
+  {%- endif -%}
 </ul>
