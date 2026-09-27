@@ -21,6 +21,19 @@
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+
+      {%- comment -%}
+        HONEY ROSIE HOUSE 追加: セクション見出し用に Jost を読み込む。
+        Futura に近いジオメトリックサンセリフ。ヘッダーのロゴ文字は
+        Abril Fatface のまま残したいため、テーマ設定の見出しフォントは
+        変更せず、assets/hrh-overrides.css で見出しだけ差し替えている。
+      {%- endcomment -%}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap"
+      >
     {%- endunless -%}
 
     <title>

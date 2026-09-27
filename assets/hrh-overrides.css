@@ -237,3 +237,74 @@ body {
     background-image: url("hrh-bg-1.jpg");
   }
 }
+
+
+/* ---------------------------------------------------------------
+   HERO（TOPのイメージバナー）の高さ
+
+   image_height を "adapt"（画像の縦横比そのまま）にしているため、
+   1600x900 の画像では 56.25% が本来の高さになる。
+   これを40%圧縮（56.25%→33.75%）し、さらに10%圧縮して 30.375% にする。画像は object-fit: cover のため
+   上下が均等に切り取られる。
+
+   sections/image-banner.liquid が同じセレクタを <style> で出力しており、
+   そちらのほうが後に来る。body を足して詳細度で上回らせている。
+   --------------------------------------------------------------- */
+body #Banner-hero::before,
+body #Banner-hero .banner__media::before,
+body #Banner-hero:not(.banner--mobile-bottom) .banner__content::before {
+  padding-bottom: 30.375%;
+}
+
+/* ---------------------------------------------------------------
+   フッター CONTACT 列の折り返し
+
+   メールアドレスは途中に改行位置がないため、375px 幅だと
+   はみ出すか1文字ずつ詰まる。英数字の途中でも折り返せるようにする。
+   --------------------------------------------------------------- */
+.footer-block__details-content {
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------------
+   フッター最下部のSNSアイコン
+
+   sections/footer.liquid でコピーライトの上に描画している。
+   Dawn の .footer__list-social は右寄せ前提のため、中央に戻す。
+   --------------------------------------------------------------- */
+.hrh-footer-social {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+}
+
+.hrh-footer-social .footer__list-social {
+  justify-content: center;
+  margin: 0;
+}
+
+/* noteのリンク（アイコンが無いため文字で並べる） */
+.hrh-social-note {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------------
+   セクション見出し（PICKUP / CATEGORY / DAILY など）のフォント
+
+   ブランドのロゴ文字は Abril Fatface のままにしたいので、
+   テーマ設定の見出しフォントは変えずに、セクション見出しだけ
+   Jost（Futura系のジオメトリックサンセリフ）に差し替える。
+   読み込みは layout/theme.liquid。
+   --------------------------------------------------------------- */
+.title,
+.title-wrapper-with-link .title,
+.collection-list-title,
+.blog__title,
+.collection-hero__title {
+  font-family: 'Jost', 'Assistant', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
