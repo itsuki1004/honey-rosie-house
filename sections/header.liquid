@@ -283,15 +283,11 @@
       </div>
       {%- comment -%} HONEY ROSIE HOUSE: 検索機能は使わないため描画しない {%- endcomment -%}
 
-      {%- if shop.customer_accounts_enabled -%}
-        <shopify-account
-          menu="{{ settings.customer_account_menu | default: 'customer-account-main-menu' }}"
-          class="header__icon header__icon--account link focus-inset"
-        >
-          <span slot="signed-out-avatar" class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-          <span slot="signed-out-avatar" class="visually-hidden">{{ 'customer.log_in' | t }}</span>
-        </shopify-account>
-      {%- endif -%}
+      {%- comment -%}
+        HONEY ROSIE HOUSE: 会員登録・ログインは使わないため、
+        アカウントアイコンを描画しない。ヘッダーは
+        ハンバーガーメニュー / ロゴ / カート の3つだけにする。
+      {%- endcomment -%}
 
       {%- for block in section.blocks -%}
         {%- case block.type -%}
