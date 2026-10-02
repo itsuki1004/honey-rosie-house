@@ -436,3 +436,17 @@ body {
     );
   }
 }
+/* ---------------------------------------------------------------
+   見出しとグリッドの距離を揃える
+
+   CATEGORY / DAILY は .title-wrapper-with-link で 3rem。
+   PICKUP（featured-collection）は .collection__title の 2.5rem と
+   見出しの下マージン（スマホ 2rem）が相殺され、スマホだけ 2.5rem になっていた。
+   --------------------------------------------------------------- */
+.collection__title.title-wrapper {
+  margin-bottom: 3rem;
+}
+
+.collection__title.title-wrapper > .title {
+  margin-bottom: 0;
+}
