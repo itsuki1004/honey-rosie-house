@@ -132,112 +132,6 @@
   }
 }
 
-/* ---------------------------------------------------------------
-   TOP の背景スライドショー
-
-   ブランドアートを画面いっぱいに固定し、その上のコンテンツ背景を
-   不透明度95%の白にすることで、うっすら透けて見える状態をつくる。
-   --------------------------------------------------------------- */
-/* 背景レイヤーは body::before で描く。
-   Liquid を介さないため、スニペットの描画有無に左右されない。
-   CSS 内の相対パスはテーマの assets/ を指す。 */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 0;
-  background-size: cover;      /* 画面比率に合わせてはみ出させる */
-  background-position: center;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  animation: hrh-bg-cycle 50s ease-in-out infinite; /* 5枚 x 10秒 */
-}
-
-/* 1枚あたり: 2.5秒でフェードイン -> 5秒表示 -> 2.5秒でフェードアウト。
-   背景画像は不透明度0の瞬間に差し替えるため、切り替わりは見えない。
-   各区間の変化は ease-in-out で、出入りともになめらかにする。 */
-@keyframes hrh-bg-cycle {
-  0% { opacity: 0; background-image: url("hrh-bg-1.jpg"); }
-  5% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
-  15% { opacity: 1; background-image: url("hrh-bg-1.jpg"); }
-  20% { opacity: 0; background-image: url("hrh-bg-1.jpg"); }
-  20.01% { opacity: 0; background-image: url("hrh-bg-2.jpg"); }
-  25% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
-  35% { opacity: 1; background-image: url("hrh-bg-2.jpg"); }
-  40% { opacity: 0; background-image: url("hrh-bg-2.jpg"); }
-  40.01% { opacity: 0; background-image: url("hrh-bg-3.jpg"); }
-  45% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
-  55% { opacity: 1; background-image: url("hrh-bg-3.jpg"); }
-  60% { opacity: 0; background-image: url("hrh-bg-3.jpg"); }
-  60.01% { opacity: 0; background-image: url("hrh-bg-4.jpg"); }
-  65% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
-  75% { opacity: 1; background-image: url("hrh-bg-4.jpg"); }
-  80% { opacity: 0; background-image: url("hrh-bg-4.jpg"); }
-  80.01% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
-  85% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
-  95% { opacity: 1; background-image: url("hrh-bg-5.jpg"); }
-  100% { opacity: 0; background-image: url("hrh-bg-5.jpg"); }
-}
-
-/* 背景の上に白のベールを敷く。
-   セクション側で透過を作る方式だと、背景色を持たないテンプレート
-   （page.json の main-page など）で画像が素通しになるため、
-   背景レイヤー側で一律に薄める。 */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 0;
-  background-color: rgba(255, 255, 255, 0.95); /* scheme-1 の白に合わせる */
-  pointer-events: none;
-}
-
-/* 背景レイヤーより前にコンテンツを置く */
-.shopify-section,
-#MainContent {
-  position: relative;
-  z-index: 1;
-}
-
-/* 背景が見えるように html と body を透過させる。
-   .gradient (specificity 0,1,0) に勝つよう body 要素セレクタと併記する。 */
-html {
-  background-color: transparent;
-}
-
-body.gradient,
-body {
-  background-color: transparent;
-  background-image: none;
-}
-
-/* 白（scheme-1）のセクションは完全に透過させ、濃さは上のベールに一本化する。
-   ヘッダー（追従表示で下が透けると読みにくい）とフッター（濃紺）は
-   #MainContent の外なので不透明のまま残る。 */
-#MainContent .color-scheme-1 {
-  background-color: transparent;
-}
-
-/* カードは白のまま残して可読性を確保する */
-#MainContent .card--card {
-  background-color: rgb(var(--color-background));
-}
-
-/* 視差に弱い利用者には切り替えを止め、1枚目だけを表示する */
-@media (prefers-reduced-motion: reduce) {
-  body::before {
-    animation: none;
-    opacity: 1;
-    background-image: url("hrh-bg-1.jpg");
-  }
-}
-
 
 /* ---------------------------------------------------------------
    フッター CONTACT 列の折り返し
@@ -376,7 +270,7 @@ body {
 .hrh-hero__slide {
   flex: 0 0 var(--hrh-hero-width);
   aspect-ratio: 1.8 / 1;
-  border-radius: 14px;
+  border-radius: 12px; /* テーマ設定の角丸（12px）に合わせる */
   overflow: hidden;
   background: rgba(var(--color-foreground), 0.04);
 }
@@ -451,4 +345,122 @@ body {
 
 .collection__title.title-wrapper > .title {
   margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------
+   フォント
+
+   本文: Shippori Mincho（読み込みは layout/theme.liquid）。
+   テーマ設定の本文フォント Assistant は日本語を持たず、端末の標準ゴシックに
+   落ちていた。モック（明朝系）に合わせて本文を明朝にする。
+   見出し: Abril Fatface のまま。日本語が混ざったときだけ Shippori Mincho に落とす。
+   --------------------------------------------------------------- */
+:root {
+  --font-body-family: 'Shippori Mincho', serif;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 700;
+  --font-heading-family: 'Abril Fatface', 'Shippori Mincho', serif;
+}
+
+/* ---------------------------------------------------------------
+   ブランドの差し色（ローズ）
+
+   基調は紺と白のまま、ヒーローのピンク系から取ったローズを
+   見出しの副題とリンクのホバーにだけ使う。
+   #c2416b は白背景でコントラスト比 約4.9:1（本文サイズでもAA）。
+   --------------------------------------------------------------- */
+:root {
+  --hrh-accent: 194, 65, 107;
+}
+
+@media (hover: hover) {
+  .card__heading a:hover,
+  .link:hover,
+  .collection__view-all a:hover,
+  .collection-list-view-all a:hover,
+  .blog__view-all a:hover {
+    color: rgb(var(--hrh-accent));
+  }
+}
+
+/* ---------------------------------------------------------------
+   セクション見出しの日本語副題
+
+   見出しが英字だけで素っ気ないため、下に小さく日本語を添える。
+   セクションの id 末尾（templates/index.json のキー）で出し分ける。
+   文言を変えるときはここを直す。
+   --------------------------------------------------------------- */
+[id$="__pickup"] .title::after,
+[id$="__category"] .collection-list-title::after,
+[id$="__daily"] .blog__title::after {
+  display: block;
+  margin-top: 0.6rem;
+  font-family: var(--font-body-family);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  color: rgb(var(--hrh-accent));
+}
+
+[id$="__pickup"] .title::after {
+  content: 'おすすめアイテム';
+}
+
+[id$="__category"] .collection-list-title::after {
+  content: 'カテゴリーから探す';
+}
+
+[id$="__daily"] .blog__title::after {
+  content: '日々のこと';
+}
+
+/* ---------------------------------------------------------------
+   「すべて見る」をテキストリンクにする
+
+   モックは枠付きボタンではなく「すべて見る →」の下線付きテキスト。
+   Dawn のボタンは ::before（影）と ::after（枠線）で描かれているため、
+   この3か所に限ってそれを消し、::after を矢印に使う。
+   --------------------------------------------------------------- */
+.collection__view-all a.button,
+.collection-list-view-all a.button,
+.blog__view-all a.button {
+  min-width: 0;
+  min-height: 0;
+  padding: 0 0 0.4rem;
+  background: none;
+  color: rgb(var(--color-foreground));
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+}
+
+.collection__view-all a.button::before,
+.collection-list-view-all a.button::before,
+.blog__view-all a.button::before {
+  display: none;
+}
+
+.collection__view-all a.button::after,
+.collection-list-view-all a.button::after,
+.blog__view-all a.button::after,
+.collection__view-all a.button:hover::after,
+.collection-list-view-all a.button:hover::after,
+.blog__view-all a.button:hover::after {
+  content: '→';
+  position: static;
+  margin-left: 0.8rem;
+  box-shadow: none;
+  border-radius: 0;
+  transition: transform var(--duration-short) ease;
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .collection__view-all a.button:hover::after,
+  .collection-list-view-all a.button:hover::after,
+  .blog__view-all a.button:hover::after {
+    transform: translateX(3px);
+  }
 }
