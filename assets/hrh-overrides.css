@@ -393,3 +393,14 @@ body {
     margin-top: 20px;
   }
 }
+
+/* ---------------------------------------------------------------
+   ヘッダーの文字色
+
+   Dawn はロゴ文字とメニュー文字を前景色の75%で描くため、
+   紺背景（scheme-4）だと白が濁って見える。100%にする。
+   --------------------------------------------------------------- */
+.header-wrapper .header__heading-link .h2,
+.header-wrapper .header__menu-item {
+  color: rgb(var(--color-foreground));
+}
