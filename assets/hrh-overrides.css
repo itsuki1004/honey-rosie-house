@@ -250,9 +250,9 @@ body {
    sections/image-banner.liquid が同じセレクタを <style> で出力しており、
    そちらのほうが後に来る。body を足して詳細度で上回らせている。
    --------------------------------------------------------------- */
-body #Banner-hero::before,
-body #Banner-hero .banner__media::before,
-body #Banner-hero:not(.banner--mobile-bottom) .banner__content::before {
+body [id^="Banner-"][id$="__hero"]::before,
+body [id^="Banner-"][id$="__hero"] .banner__media::before,
+body [id^="Banner-"][id$="__hero"]:not(.banner--mobile-bottom) .banner__content::before {
   padding-bottom: 30.375%;
 }
 
@@ -307,4 +307,97 @@ body #Banner-hero:not(.banner--mobile-bottom) .banner__content::before {
   font-family: 'Jost', 'Assistant', sans-serif;
   font-weight: 500;
   letter-spacing: 0.08em;
+}
+
+/* ---------------------------------------------------------------
+   PC表示の詰め
+
+   商品が2点しかないため、デスクトップで2カラムにすると
+   タイルが画面幅いっぱいに伸びて間延びする。
+   グリッドの最大幅を絞って中央に寄せる（ヒーローは下の「カード状」で処理）。
+   スマホ表示には影響させない。
+   --------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+  .collection .collection__title,
+  .collection .slider-mobile-gutter,
+  .collection-list-wrapper,
+  .blog .page-width-desktop {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* セクション間の余白も詰める */
+  .collection .slider-mobile-gutter,
+  .collection-list-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ---------------------------------------------------------------
+   カード内テキストのサイズ
+
+   タイルを小さくしたぶん、商品名と価格が相対的に小さく見えるため
+   明示的に上げる。Dawn の既定は h5 相当で、写真の面積に対して細い。
+   --------------------------------------------------------------- */
+.card__heading,
+.card-information .card__heading {
+  font-size: 1.7rem;
+  line-height: 1.45;
+}
+
+.card-information .price,
+.card-information .price-item {
+  font-size: 1.6rem;
+}
+
+.card__heading + .card-information,
+.card-information > * + * {
+  margin-top: 0.4rem;
+}
+
+/* ---------------------------------------------------------------
+   ヒーローをPCではカード状に置く
+
+   image_height が "adapt" のとき、Dawn は ::before の padding-bottom で
+   高さを作る。比率指定のままだと画面幅に比例して伸びるため、
+   PCでは擬似要素での高さ生成を止め、実寸で固定する。
+   セクション側が <style> を後から出力するので !important で確実に上書きする。
+   スマホ・タブレット(990px未満)は全幅・画像比率のまま。
+   --------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+  body [id^="Banner-"][id$="__hero"] {
+    max-width: 760px !important;
+    height: 420px !important;
+    min-height: 0 !important;
+    margin: 20px auto 0 !important;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  body [id^="Banner-"][id$="__hero"]::before,
+  body [id^="Banner-"][id$="__hero"] .banner__media::before,
+  body [id^="Banner-"][id$="__hero"] .banner__content::before {
+    display: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  body [id^="Banner-"][id$="__hero"] .banner__media {
+    position: absolute !important;
+    inset: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  body [id^="Banner-"][id$="__hero"] .banner__media img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover;
+  }
+
+  body [id^="Banner-"][id$="__hero"] .banner__content {
+    min-height: 0 !important;
+  }
 }
