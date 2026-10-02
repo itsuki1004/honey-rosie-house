@@ -310,7 +310,9 @@ body {
     margin-right: auto;
   }
 
-  /* セクション間の余白も詰める */
+  /* 左右の余白を0にして、見出し・グリッドの開始位置を760px枠の左端に揃える。
+     PICKUP の見出しは .page-width の 5rem が残り、CATEGORY より右にずれていた */
+  .collection .collection__title,
   .collection .slider-mobile-gutter,
   .collection-list-wrapper {
     padding-left: 0;
