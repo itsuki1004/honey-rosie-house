@@ -1,0 +1,92 @@
+{%- comment -%}
+  HRH: TOP の HERO。中央1枚 + 左右がのぞくカルーセル。
+  数秒ごとに右から左へ1枚ずつ送り、端は複製スライドで継ぎ目なくループする。
+  スライド画像は block の image を優先し、未選択なら hrh_asset（assets 内のファイル名）を使う。
+  見た目は assets/hrh-overrides.css「HERO（TOPのカルーセル）」、動きは assets/hrh-hero-carousel.js。
+{%- endcomment -%}
+
+<script src="{{ 'hrh-hero-carousel.js' | asset_url }}" defer="defer"></script>
+
+{%- capture slides -%}
+  {%- for block in section.blocks -%}
+    <div class="hrh-hero__slide" {{ block.shopify_attributes }}>
+      {%- if block.settings.image != blank -%}
+        {{
+          block.settings.image
+          | image_url: width: 1800
+          | image_tag: widths: '600, 900, 1200, 1800', sizes: '(min-width: 990px) 760px, 86vw', alt: ''
+        }}
+      {%- elsif block.settings.hrh_asset != blank -%}
+        <img src="{{ block.settings.hrh_asset | asset_url }}" alt="" width="1800" height="1000">
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+<hrh-hero-carousel
+  class="hrh-hero"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="{{ section.settings.accessibility_info | escape }}"
+  data-interval="{{ section.settings.interval }}"
+>
+  <div class="hrh-hero__track">
+    {%- comment -%} 前後に1周ぶんずつ複製を置き、端で瞬間的に本体へ戻す {%- endcomment -%}
+    <div class="hrh-hero__set" aria-hidden="true" inert>{{ slides | replace: '<img ', '<img loading="lazy" ' }}</div>
+    <div class="hrh-hero__set hrh-hero__set--main">{{ slides }}</div>
+    <div class="hrh-hero__set" aria-hidden="true" inert>{{ slides | replace: '<img ', '<img loading="lazy" ' }}</div>
+  </div>
+</hrh-hero-carousel>
+
+{% schema %}
+{
+  "name": "HRH ヒーロー",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "切り替え間隔",
+      "min": 3,
+      "max": 9,
+      "step": 1,
+      "unit": "秒",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "accessibility_info",
+      "label": "スライドショーの説明（読み上げ用）",
+      "default": "HONEY ROSIE HOUSE"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "スライド",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "画像",
+          "info": "1.8:1（例 1800x1000）推奨"
+        },
+        {
+          "type": "text",
+          "id": "hrh_asset",
+          "label": "テーマ画像（画像未選択時に使用）",
+          "info": "assets 内のファイル名。例: hrh-hero-1.jpg"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HRH ヒーロー",
+      "blocks": [{ "type": "slide" }, { "type": "slide" }, { "type": "slide" }]
+    }
+  ]
+}
+{% endschema %}

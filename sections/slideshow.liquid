@@ -98,7 +98,7 @@
   {%- endif -%}
 
   <div
-    class="slideshow banner banner--{{ section.settings.slide_height }} grid grid--1-col slider slider--everywhere{% if section.settings.show_text_below %} banner--mobile-bottom{% endif %}{% if section.blocks.first.settings.image == blank and section.blocks.first.settings.hrh_asset == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+    class="slideshow banner banner--{{ section.settings.slide_height }} grid grid--1-col slider slider--everywhere{% if section.settings.show_text_below %} banner--mobile-bottom{% endif %}{% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
     id="Slider-{{ section.id }}"
     aria-live="polite"
     aria-atomic="true"
@@ -120,7 +120,7 @@
         aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
         tabindex="-1"
       >
-        <div class="slideshow__media banner__media media{% if block.settings.image == blank and block.settings.hrh_asset == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
+        <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
           {%- if block.settings.image -%}
             {%- liquid
               assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
@@ -149,15 +149,6 @@
                 | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
               }}
             {%- endif -%}
-          {%- elsif block.settings.hrh_asset != blank -%}
-            {%- comment -%} HRH: 画像未選択ならテーマ assets の画像を使う {%- endcomment -%}
-            <img
-              src="{{ block.settings.hrh_asset | asset_url }}"
-              alt=""
-              width="1800"
-              height="1000"
-              {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
-            >
           {%- else -%}
             {%- assign placeholder_slide = forloop.index | modulo: 2 -%}
             {%- if placeholder_slide == 1 -%}
@@ -403,12 +394,6 @@
           "type": "image_picker",
           "id": "image",
           "label": "t:sections.slideshow.blocks.slide.settings.image.label"
-        },
-        {
-          "type": "text",
-          "id": "hrh_asset",
-          "label": "テーマ画像（画像未選択時に使用）",
-          "info": "assets 内のファイル名。例: hrh-hero-1.jpg"
         },
         {
           "type": "range",
