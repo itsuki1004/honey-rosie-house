@@ -277,19 +277,19 @@ body {
 /* ---------------------------------------------------------------
    セクション見出し（PICKUP / CATEGORY / DAILY など）のフォント
 
-   ブランドのロゴ文字は Abril Fatface のままにしたいので、
-   テーマ設定の見出しフォントは変えずに、セクション見出しだけ
-   Jost（Futura系のジオメトリックサンセリフ）に差し替える。
-   読み込みは layout/theme.liquid。
+   ヘッダーのブランド名と同じフォント（テーマ設定の見出しフォント = Abril Fatface）。
+   以前は Jost（読み込みは layout/theme.liquid）に差し替えていた。
+   戻す場合は font-family を 'Jost', 'Assistant', sans-serif / weight 500 / 字間 0.08em に。
    --------------------------------------------------------------- */
 .title,
 .title-wrapper-with-link .title,
 .collection-list-title,
 .blog__title,
 .collection-hero__title {
-  font-family: 'Jost', 'Assistant', sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.04em;
 }
 
 /* ---------------------------------------------------------------
