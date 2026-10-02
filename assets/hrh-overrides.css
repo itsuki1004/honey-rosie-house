@@ -404,3 +404,35 @@ body {
 .header-wrapper .header__menu-item {
   color: rgb(var(--color-foreground));
 }
+/* ---------------------------------------------------------------
+   「すべて見る」とその上のグリッドとの距離をセクション間で揃える
+
+   Dawn の既定はセクションごとに異なる
+   （CATEGORY 2rem / PICKUP 0+1rem / DAILY 3rem〜5rem + 記事一覧の下余白 1rem）。
+   さらにスマホの DAILY は横スクロールのため、各記事の下にカード影ぶんの余白
+   （component-slider.css の --shadow-padding-bottom）が入り、その分だけ離れる。
+   ここで一律 3rem にし、DAILY の影の余白はスライダーになる 990px 未満でだけ差し引く。
+   --------------------------------------------------------------- */
+.collection__view-all,
+.collection-list-view-all,
+.blog__view-all {
+  margin-top: 3rem;
+}
+
+.collection__view-all a:not(.link),
+.blog__button {
+  margin-top: 0;
+}
+
+.blog__posts.articles-wrapper {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 989px) {
+  .blog__view-all {
+    margin-top: calc(
+      3rem - (var(--blog-card-shadow-vertical-offset) + var(--blog-card-shadow-blur-radius)) *
+        var(--blog-card-shadow-visible)
+    );
+  }
+}
