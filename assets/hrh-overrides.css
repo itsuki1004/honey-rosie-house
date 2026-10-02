@@ -335,7 +335,7 @@ body {
 
 .card-information .price,
 .card-information .price-item {
-  font-size: 1.6rem;
+  font-size: 1.92rem; /* 1.6rem の 1.2倍 */
 }
 
 .card__heading + .card-information,
